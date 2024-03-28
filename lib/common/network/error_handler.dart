@@ -138,7 +138,7 @@ class AppStrings {
   static const String strConflictError = "conflict_error";
   static const String strInternalServerError = "internal_server_error";
   static const String strUnknownError = "unknown_error";
-  static const String strTimeoutError = "Timeout";
+  static const String strTimeoutError = "Connetion timeout";
   static const String strDefaultError = "Terjadi Kesalahan";
   static const String strCacheError = "cache_error";
   static const String strNoInternetError = "no_internet_error";

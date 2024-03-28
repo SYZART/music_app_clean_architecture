@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:openmusic/domain/entities/song_entiti.dart';
-import 'package:openmusic/domain/usecases/get_all_song.dart';
+import 'package:openmusic/domain/usecases/song/get_all_song.dart';
 
 part 'songs_event.dart';
 part 'songs_state.dart';

@@ -25,7 +25,11 @@ class OnGetToken extends AuthEvent {
   const OnGetToken();
 }
 
-class OnShowPassword extends AuthEvent {
-  final bool status;
-  const OnShowPassword({this.status = false});
+class OnLogout extends AuthEvent {
+  const OnLogout();
+}
+
+class OnSaveUserToken extends AuthEvent {
+  final DataLoginModel dataLoginModel;
+  const OnSaveUserToken(this.dataLoginModel);
 }

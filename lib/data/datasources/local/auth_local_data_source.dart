@@ -1,42 +1,45 @@
 import 'package:openmusic/common/exception.dart';
-import 'package:openmusic/data/datasources/db/database_helper.dart';
+import 'package:openmusic/data/datasources/db/sql_database_helper.dart';
+import 'package:openmusic/data/models/login_model.dart';
 
 abstract class AuthLocalDataSource {
-  // String? getPassword();
-  Future<bool> setAccesToken(String accesToken);
-  Future<String?> getAccesToken();
-  // Future<bool> setPassword(String password);
-  Future<bool> logout();
+  Future<int> clearUserToken();
+  Future<String?> getUserToken(String tokenName);
+  Future<String> saveUserToken(DataLoginModel loginModel);
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  final DatabaseHelper databaseHelper;
+  final SQLDatabaseHelper sqlDatabaseHelper;
 
-  AuthLocalDataSourceImpl({required this.databaseHelper});
-
-  @override
-  Future<String?> getAccesToken() async {
-    final result = await databaseHelper.getAccessToken();
-    return result;
-  }
+  AuthLocalDataSourceImpl({
+    required this.sqlDatabaseHelper,
+  });
 
   @override
-  Future<bool> logout() async {
+  Future<String> saveUserToken(DataLoginModel loginModel) async {
     try {
-      final result = await databaseHelper.logout();
-      return result;
+      await sqlDatabaseHelper.insertUserToken(loginModel);
+      return 'Succes Save Token';
     } catch (e) {
-      throw DatabaseException();
+      throw DatabaseException(e.toString());
     }
   }
 
   @override
-  Future<bool> setAccesToken(String accesToken) async {
+  Future<int> clearUserToken() async {
     try {
-      final result = await databaseHelper.setAccessToken(accesToken);
-      return result;
+      return await sqlDatabaseHelper.clearUserTable();
     } catch (e) {
-      throw DatabaseException();
+      throw DatabaseException(e.toString());
+    }
+  }
+
+  @override
+  Future<String?> getUserToken(String tokenName) async {
+    try {
+      return await sqlDatabaseHelper.readUserToken(tokenName);
+    } catch (e) {
+      throw DatabaseException(e.toString());
     }
   }
 }

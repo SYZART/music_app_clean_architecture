@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openmusic/common/widgets/custom_snackbar.dart';
-import 'package:openmusic/presentation/bloc/auth%20bloc/auth_bloc.dart';
+import 'package:openmusic/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:openmusic/presentation/pages/login_page.dart';
-import 'package:openmusic/presentation/pages/song_page.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});

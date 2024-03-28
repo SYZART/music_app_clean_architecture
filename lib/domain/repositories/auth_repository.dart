@@ -6,12 +6,18 @@ import 'package:openmusic/domain/entities/register_succes_entiti.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, RegisterSuccessEntity>> postRegister(
-      String username, String password, String fullname);
+    String username,
+    String password,
+    String fullname,
+  );
   Future<Either<Failure, LoginEntity>> postLogin(
     String username,
     String password,
   );
-  Future<Either<Failure, bool>> setAccesToken(String accesToken);
-  Future<String?> getAccesToken();
-  Future<Either<Failure, bool>> logout();
+  Future<Either<Failure, LoginEntity>> postRefreshToken();
+  Future<Either<Failure, bool>> logout(String refreshToken);
+  //LOCAL DB
+  Future<Either<Failure, String>> saveUserToken(DataLoginModel loginModel);
+  Future<Either<Failure, String?>> getUserToken(String tokenName);
+  Future<Either<Failure, int>> clearUserToken();
 }

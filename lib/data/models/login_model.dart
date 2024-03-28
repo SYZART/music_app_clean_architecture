@@ -1,8 +1,11 @@
 import 'package:openmusic/domain/entities/login_entiti.dart';
 
 class LoginModel extends LoginEntity {
-  const LoginModel(
-      {required super.status, required super.message, required super.data});
+  const LoginModel({
+    required super.status,
+    required super.message,
+    required super.data,
+  });
   factory LoginModel.fromJson(Map<String, dynamic> json) {
     return LoginModel(
         status: json['status'],
@@ -15,10 +18,20 @@ class LoginModel extends LoginEntity {
 }
 
 class DataLoginModel extends DataLoginEntitiy {
-  const DataLoginModel(
-      {required super.accessToken, required super.refreshToken});
+  const DataLoginModel({
+    required super.accessToken,
+    required super.refreshToken,
+  });
+
+  factory DataLoginModel.fromEntity(DataLoginEntitiy entitiy) => DataLoginModel(
+        accessToken: entitiy.accessToken,
+        refreshToken: entitiy.refreshToken,
+      );
+
   factory DataLoginModel.fromJson(Map<String, dynamic> json) {
     return DataLoginModel(
-        accessToken: json['accessToken'], refreshToken: json['refreshToken']);
+      accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
+    );
   }
 }

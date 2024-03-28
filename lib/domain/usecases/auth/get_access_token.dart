@@ -7,7 +7,7 @@ class GetAccessToken {
 
   GetAccessToken(this.authRepository);
 
-  Future<String?> execute() {
-    return authRepository.getAccesToken();
+  Future<Either<Failure, String?>> execute() {
+    return authRepository.getUserToken('accessToken');
   }
 }

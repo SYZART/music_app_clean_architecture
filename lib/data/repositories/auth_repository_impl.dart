@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:openmusic/common/exception.dart';
 import 'package:openmusic/common/failure.dart';
 import 'package:openmusic/data/datasources/remote/auth_remote_data_source.dart';
 import 'package:openmusic/data/datasources/local/auth_local_data_source.dart';
+import 'package:openmusic/data/models/login_model.dart';
 import 'package:openmusic/domain/entities/login_entiti.dart';
 import 'package:openmusic/domain/entities/register_succes_entiti.dart';
 import 'package:openmusic/domain/repositories/auth_repository.dart';
@@ -41,7 +43,6 @@ class AuthRepositoryImpl extends AuthRepository {
   ) async {
     try {
       final result = await authRemoteDataSource.postLogin(username, password);
-      await authLocalDataSource.setAccesToken(result.data.accessToken);
 
       return Right(result);
     } on SocketException {
@@ -52,30 +53,64 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<String?> getAccesToken() async {
-    final result = await authLocalDataSource.getAccesToken();
-    return result;
-  }
-
-  @override
-  Future<Either<Failure, bool>> logout() async {
+  Future<Either<Failure, bool>> logout(String refreshToken) async {
     try {
-      final result = await authLocalDataSource.logout();
+      final result = await authRemoteDataSource.logOut(refreshToken);
+
       return Right(result);
     } catch (e) {
-      return const Left(
-          DatabaseFailure('Terjadi Kesalahan Penyimpanan Internal'));
+      return Left(ErrorHandler.handle(e).serverFailure);
     }
   }
 
   @override
-  Future<Either<Failure, bool>> setAccesToken(String accesToken) async {
+  Future<Either<Failure, LoginEntity>> postRefreshToken() async {
     try {
-      final result = await authLocalDataSource.setAccesToken(accesToken);
+      final result = await authRemoteDataSource.postRefreshToken('');
+
       return Right(result);
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
     } catch (e) {
-      return const Left(
-          DatabaseFailure('Terjadi Kesalahan Penyimpanan Internal'));
+      return Left(ErrorHandler.handle(e).serverFailure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> saveUserToken(
+      DataLoginModel loginModel) async {
+    try {
+      final result = await authLocalDataSource
+          .saveUserToken(DataLoginModel.fromEntity(loginModel));
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> clearUserToken() async {
+    try {
+      final result = await authLocalDataSource.clearUserToken();
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Either<Failure, String?>> getUserToken(String tokenName) async {
+    try {
+      final result = await authLocalDataSource.getUserToken(tokenName);
+      return Right(result);
+    } on DatabaseException catch (e) {
+      return Left(DatabaseFailure(e.message));
+    } catch (e) {
+      rethrow;
     }
   }
 }

@@ -48,3 +48,32 @@ final class GetTokenSucces extends AuthState {
 final class GetTokenFailed extends AuthState {
   const GetTokenFailed();
 }
+
+// Save User Token
+final class SaveTokenLoading extends AuthState {
+  const SaveTokenLoading();
+}
+
+final class SaveTokenSucces extends AuthState {
+  final String message;
+  const SaveTokenSucces(this.message);
+}
+
+final class SaveTokenFailed extends AuthState {
+  final String message;
+  const SaveTokenFailed(this.message);
+}
+
+// LOGOUT
+final class LogoutLoading extends AuthState {
+  const LogoutLoading();
+}
+
+final class LogoutSucces extends AuthState {
+  const LogoutSucces();
+}
+
+final class LogoutFailed extends AuthState {
+  final String message;
+  const LogoutFailed({required this.message});
+}

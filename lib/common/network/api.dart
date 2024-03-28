@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:openmusic/common/constants.dart';
 
 class DioClient {
   late Dio _dio;
@@ -19,18 +20,18 @@ class DioClient {
   }) {
     _dio = dio;
     _dio
-      ..options.baseUrl = 'http://10.0.2.2:5000'
+      ..options.baseUrl = ApiURL.baseUrl
       ..options.connectTimeout = const Duration(seconds: 5)
-      ..options.receiveTimeout = const Duration(seconds: 5)
+      ..options.receiveTimeout = const Duration(seconds: 20)
       ..httpClientAdapter
       ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
 
     if (kDebugMode) {
       _dio.interceptors.add(LogInterceptor(
-          responseBody: true,
-          error: true,
-          requestHeader: false,
-          responseHeader: false,
+          responseBody: false,
+          error: false,
+          requestHeader: true,
+          responseHeader: true,
           request: false,
           requestBody: true));
     }
@@ -42,12 +43,9 @@ class DioClient {
           return handler.next(options);
         },
         onError: (DioException e, ErrorInterceptorHandler handler) async {
-          // log(e.response?.data['message'].toString() ?? '--');
-          // log(e.response?.data['message'] ?? '--');
           // bisa juga e.response?.statusCode == 401
           if (e.response?.data['error'].toString() == 'Unauthorized' &&
               e.response?.statusCode == 401) {
-            log('as');
             // If a 401 response is received, refresh the access token
             String newAccessToken = await refreshToken();
 
@@ -134,36 +132,62 @@ class DioClient {
   //       onSendProgress: onSendProgress,
   //       onReceiveProgress: onReceiveProgress,
   //     );
-  //     return response.data;
+  //     return response;
   //   } on FormatException catch (_) {
   //     throw FormatException("Unable to process the data");
   //   } catch (e) {
   //     throw e;
   //   }
   // }
+  Future<Response> put(
+    String uri, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      var response = await _dio.put(
+        uri,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } on FormatException catch (_) {
+      throw const FormatException("Unable to process the data");
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-  // Future<dynamic> delete(
-  //   String uri, {
-  //   data,
-  //   Map<String, dynamic>? queryParameters,
-  //   Options? options,
-  //   CancelToken? cancelToken,
-  // }) async {
-  //   try {
-  //     var response = await _dio.delete(
-  //       uri,
-  //       data: data,
-  //       queryParameters: queryParameters,
-  //       options: options,
-  //       cancelToken: cancelToken,
-  //     );
-  //     return response.data;
-  //   } on FormatException catch (_) {
-  //     throw FormatException("Unable to process the data");
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // }
+  Future<Response> delete(
+    String uri, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      var response = await _dio.delete(
+        uri,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on FormatException catch (_) {
+      throw const FormatException("Unable to process the data");
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
 /*
