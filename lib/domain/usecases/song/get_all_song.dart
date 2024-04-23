@@ -3,12 +3,12 @@ import 'package:openmusic/common/failure.dart';
 import 'package:openmusic/domain/entities/song_entiti.dart';
 import 'package:openmusic/domain/repositories/song_repository.dart';
 
-class GetAllSong {
+class GetAllSongUsecase {
   final SongRepository repository;
 
-  GetAllSong(this.repository);
+  GetAllSongUsecase(this.repository);
 
-  Future<Either<Failure, SongsModel>> execute() {
+  Future<Either<Failure, SongEntity>> execute() {
     return repository.getAllSong();
   }
 }

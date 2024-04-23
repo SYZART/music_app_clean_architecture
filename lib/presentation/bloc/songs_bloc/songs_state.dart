@@ -12,7 +12,7 @@ final class SongsEmpty extends SongsState {}
 final class SongsLoading extends SongsState {}
 
 final class SongsLoaded extends SongsState {
-  final SongsModel songsModel;
+  final SongEntity songsModel;
   const SongsLoaded(this.songsModel);
 }
 
@@ -26,7 +26,7 @@ final class SongsDioEmpty extends SongsState {}
 final class SongsDioLoading extends SongsState {}
 
 final class SongsDioLoaded extends SongsState {
-  final SongsModel songsModel;
+  final SongEntity songsModel;
   const SongsDioLoaded(this.songsModel);
 }
 

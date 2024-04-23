@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -64,11 +63,11 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, LoginEntity>> postRefreshToken() async {
+  Future<Either<Failure, String>> putRefreshToken() async {
     try {
       final result = await authRemoteDataSource.postRefreshToken('');
 
-      return Right(result);
+      return Right(result.data.accessToken);
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     } catch (e) {

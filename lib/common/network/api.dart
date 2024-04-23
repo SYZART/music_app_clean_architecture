@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:openmusic/common/constants.dart';
+import 'package:openmusic/domain/usecases/auth/put_token.dart';
 
 class DioClient {
   late Dio _dio;
@@ -28,10 +29,10 @@ class DioClient {
 
     if (kDebugMode) {
       _dio.interceptors.add(LogInterceptor(
-          responseBody: false,
+          responseBody: true,
           error: false,
-          requestHeader: true,
-          responseHeader: true,
+          requestHeader: false,
+          responseHeader: false,
           request: false,
           requestBody: true));
     }
@@ -48,10 +49,9 @@ class DioClient {
               e.response?.statusCode == 401) {
             // If a 401 response is received, refresh the access token
             String newAccessToken = await refreshToken();
-
+            // newAccessToken.fold((l) => {},
+            //     (r) => e.requestOptions.headers['Authorization'] = 'Bearer $r');
             // Update the request header with the new access token
-            e.requestOptions.headers['Authorization'] =
-                'Bearer $newAccessToken';
 
             // Repeat the request with the updated header
             return handler.resolve(await dio.fetch(e.requestOptions));

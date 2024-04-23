@@ -10,6 +10,7 @@ import 'package:openmusic/domain/usecases/auth/get_access_token.dart';
 import 'package:openmusic/domain/usecases/auth/get_refresh_token.dart';
 import 'package:openmusic/domain/usecases/auth/login.dart';
 import 'package:openmusic/domain/usecases/auth/logout.dart';
+import 'package:openmusic/domain/usecases/auth/put_token.dart';
 import 'package:openmusic/domain/usecases/auth/register.dart';
 import 'package:openmusic/domain/usecases/auth/save_user_token.dart';
 
@@ -20,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final Register register;
   final Login login;
   final Logout logout;
+  // final PutAccessToken putAccessToken;
 // DB
   final GetAccessToken getAccessToken;
   final GetRefreshToken getRefreshToken;
@@ -34,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this.saveUserToken,
     this.clearUserToken,
     this.getRefreshToken,
+    // this.putAccessToken,
   ) : super(AuthInitial()) {
     on<AuthEvent>((event, emit) {});
     on<OnRegisterEvent>((event, emit) async {
@@ -95,5 +98,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       saveToken.fold((l) => emit(SaveTokenFailed(l.message)),
           (r) => emit(SaveTokenSucces(r)));
     }));
+
+    // on<OnPutAccessToken>(((event, emit) => putAccessToken.execute()));
   }
 }

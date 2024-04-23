@@ -14,7 +14,7 @@ abstract class AuthRepository {
     String username,
     String password,
   );
-  Future<Either<Failure, LoginEntity>> postRefreshToken();
+  Future<Either<Failure, String>> putRefreshToken();
   Future<Either<Failure, bool>> logout(String refreshToken);
   //LOCAL DB
   Future<Either<Failure, String>> saveUserToken(DataLoginModel loginModel);

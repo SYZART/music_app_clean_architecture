@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:openmusic/common/constants.dart';
 
 class CustomSnackbar {
   static void showMessage(String message, context) {

@@ -1,17 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:openmusic/common/constants.dart';
 import 'package:openmusic/common/theme.dart';
 import 'package:openmusic/common/widgets/custom_snackbar.dart';
 import 'package:openmusic/data/models/login_model.dart';
 import 'package:openmusic/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:openmusic/presentation/cubit/page_cubit.dart';
-import 'package:openmusic/presentation/pages/register_page.dart';
-import 'package:openmusic/presentation/pages/song_page.dart';
 
 import '../../common/widgets/loading.dart';
 
@@ -21,7 +17,7 @@ class LoginPage extends StatelessWidget {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final ValueNotifier<bool> _checkBoxValue = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> _showPassword = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _showPassword = ValueNotifier<bool>(true);
   @override
   Widget build(BuildContext context) {
     log('build');
@@ -185,10 +181,11 @@ class LoginPage extends StatelessWidget {
                     size: 18,
                   ),
                   hintText: 'Password',
-                  hintStyle:
-                      TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                  hintStyle: TextStyle(fontSize: 13),
                   suffixIcon: IconButton(
-                    icon: const Icon(Iconsax.eye),
+                    icon: value
+                        ? const Icon(Iconsax.eye_slash)
+                        : const Icon(Iconsax.eye),
                     onPressed: () {
                       _showPassword.value = !_showPassword.value;
                       log('cek value checkbox${_showPassword.value}');

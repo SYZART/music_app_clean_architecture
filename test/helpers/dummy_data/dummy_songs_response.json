@@ -1,0 +1,12 @@
+{
+    "status": "success",
+    "data": {
+        "songs": [
+            {
+                "id": "song-ttYp2-1x5ER_z2XQ",
+                "title": "Life in Technicolor",
+                "performer": "Coldplay"
+            }
+        ]
+    }
+}

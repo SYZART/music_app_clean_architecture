@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openmusic/bloc_observer.dart';
-import 'package:openmusic/common/constants.dart';
 import 'package:openmusic/common/routes.dart';
 import 'package:openmusic/common/theme.dart';
 import 'package:openmusic/injection.dart' as di;

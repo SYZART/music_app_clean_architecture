@@ -1,10 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:openmusic/common/theme.dart';
 import 'package:openmusic/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:openmusic/presentation/pages/login_page.dart';
-import 'package:openmusic/presentation/pages/song_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:openmusic/presentation/bloc/songs_bloc/songs_bloc.dart';
@@ -13,12 +11,6 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // TextButton(
-        //     onPressed: () async {
-        //       final tkn = await DatabaseHelper().getAccessToken();
-        //       log(tkn.toString());
-        //     },
-        //     child: const Text('Get Token')),
         BlocConsumer<SongsBloc, SongsState>(
           listener: (context, state) {
             if (state is SongsError) {
@@ -33,7 +25,7 @@ class SongPage extends StatelessWidget {
             }
             if (state is SongsEmpty) {
               return const Center(
-                child: Text('Tidak ada survei'),
+                child: Text('Tidak ada lagu'),
               );
             }
             if (state is SongsLoaded) {
@@ -52,7 +44,14 @@ class SongPage extends StatelessWidget {
                     .toList(),
               );
             }
-            return Container();
+            return Center(
+              child: IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  context.read<SongsBloc>().add(OnGetSongs());
+                },
+              ),
+            );
           },
         ),
       ],

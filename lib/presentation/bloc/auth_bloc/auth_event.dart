@@ -33,3 +33,7 @@ class OnSaveUserToken extends AuthEvent {
   final DataLoginModel dataLoginModel;
   const OnSaveUserToken(this.dataLoginModel);
 }
+
+// class OnPutAccessToken extends AuthEvent {
+//   const OnPutAccessToken();
+// }
